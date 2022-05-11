@@ -47,17 +47,21 @@
       return;
     }    
 
-    $sql = "INSERT INTO users (nickname, email, password)
-    VALUES (:nickname, :email, :password)";
+    $hash = md5($nickname . time());
+    $sql = "INSERT INTO users (nickname, email, password, hash)
+    VALUES (:nickname, :email, :password, :hash)";
     $check = hash('md5', $salt.$_POST['password']);
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array(
       ':nickname' => $_POST['nickname'],
       ':email' => $_POST['email'],
-      ':password' => $check
+      ':password' => $check,
+      ':hash' => $hash
     ));
     $_SESSION['success'] = 'Record Added';
-    header( 'Location: index.html' ) ;
+    $_SESSION['logged_in'] = "Success";
+    $_SESSION['email_confirmed'] = false;
+    header( 'Location: profile.php' ) ;
     return;
   }
 
