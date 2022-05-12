@@ -59,6 +59,7 @@
       ':hash' => $hash
     ));
     $_SESSION['success'] = 'Record Added';
+    $_SESSION['nickname'] = $_POST['nickname'];
     $_SESSION['logged_in'] = "Success";
     $_SESSION['email_confirmed'] = false;
     header( 'Location: profile.php' ) ;
